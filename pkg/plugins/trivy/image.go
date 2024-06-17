@@ -638,7 +638,7 @@ func getCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, imageRef stri
 	if len(sbomSources) > 0 {
 		sbomSourcesFlag = fmt.Sprintf(" --sbom-sources %s ", sbomSources)
 	}
-	return []string{"/bin/sh"}, []string{"-c", fmt.Sprintf(`trivy image %s '%s' %s %s %s %s %s %s%s --cache-dir %s --quiet %s --format json %s> /tmp/scan/%s &&  bzip2 -c /tmp/scan/%s | base64`, slow, imageRef, scanners, getSecurityChecks(ctx), imageconfigSecretScannerFlag, vulnTypeFlag, skipUpdate, skipJavaDBUpdate, sbomSourcesFlag, cacheDir, getPkgList(ctx), serverUrlParms, resultFileName, resultFileName)}
+	return []string{"/bin/sh"}, []string{"-c", fmt.Sprintf(`trivy image %s '%s' %s %s %s %s %s %s%s --cache-dir %s --quiet %s --format json %s> /tmp/scan/%s &&  bzip2 -c /tmp/scan/%s | base64 && sync`, slow, imageRef, scanners, getSecurityChecks(ctx), imageconfigSecretScannerFlag, vulnTypeFlag, skipUpdate, skipJavaDBUpdate, sbomSourcesFlag, cacheDir, getPkgList(ctx), serverUrlParms, resultFileName, resultFileName)}
 }
 
 func GetSbomScanCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, sbomFile string, trivyServerURL string, resultFileName string) ([]string, []string) {
