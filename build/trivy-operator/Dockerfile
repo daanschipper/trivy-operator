@@ -10,4 +10,6 @@ COPY trivy-operator /usr/local/bin/trivy-operator
 
 USER 10000
 
+LABEL org.opencontainers.image.source=https://github.com/daanschipper/trivy-operator
+
 ENTRYPOINT ["trivy-operator"]
