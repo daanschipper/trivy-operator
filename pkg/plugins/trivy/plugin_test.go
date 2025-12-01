@@ -2363,7 +2363,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount()},
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount()},
 						SecurityContext: &corev1.SecurityContext{
 							Privileged:               ptr.To[bool](false),
 							AllowPrivilegeEscalation: ptr.To[bool](false),
@@ -2592,7 +2592,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount()},
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount()},
 						SecurityContext: &corev1.SecurityContext{
 							Privileged:               ptr.To[bool](false),
 							AllowPrivilegeEscalation: ptr.To[bool](false),
@@ -2826,7 +2826,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount()},
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount()},
 						SecurityContext: &corev1.SecurityContext{
 							Privileged:               ptr.To[bool](false),
 							AllowPrivilegeEscalation: ptr.To[bool](false),
@@ -3060,7 +3060,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount()},
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount()},
 						SecurityContext: &corev1.SecurityContext{
 							Privileged:               ptr.To[bool](false),
 							AllowPrivilegeEscalation: ptr.To[bool](false),
@@ -3314,7 +3314,7 @@ CVE-2019-1543`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount(),
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount(),
 							{
 								Name:      "ignorefile",
 								MountPath: "/etc/trivy/.trivyignore",
@@ -3574,7 +3574,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount(),
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount(),
 							{
 								Name:      "ignorepolicy",
 								MountPath: "/etc/trivy/policy.rego",
@@ -3809,7 +3809,7 @@ default ignore = false`,
 								corev1.ResourceMemory: resource.MustParse("500M"),
 							},
 						},
-						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMount(), getScanResultVolumeMount()},
+						VolumeMounts: []corev1.VolumeMount{getTmpVolumeMountWithSubPath("nginx"), getScanResultVolumeMount()},
 						SecurityContext: &corev1.SecurityContext{
 							Privileged:               ptr.To[bool](false),
 							AllowPrivilegeEscalation: ptr.To[bool](false),
@@ -7836,6 +7836,15 @@ func getTmpVolumeMount() corev1.VolumeMount {
 		Name:      "tmp",
 		ReadOnly:  false,
 		MountPath: "/tmp",
+	}
+}
+
+func getTmpVolumeMountWithSubPath(subPath string) corev1.VolumeMount {
+	return corev1.VolumeMount{
+		Name:      "tmp",
+		ReadOnly:  false,
+		MountPath: "/tmp",
+		SubPath:   subPath,
 	}
 }
 
